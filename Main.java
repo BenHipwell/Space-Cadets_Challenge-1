@@ -14,6 +14,7 @@ public class Main {
     Scanner input = new Scanner(System.in);
     boolean found = false;
 
+    // loop until we find a name to associate with a staff member id.
     while (!found) {
       System.out.println("Please enter the email id of the chosen staff member:");
       String id = input.nextLine();
@@ -28,9 +29,11 @@ public class Main {
     }
   }
 
+  // scans the html returned from BASE_URL + id and returns the name of the staff member, or null if not found.
   private static String getProfessorNameFromId(String id) throws MalformedURLException, IOException {
     URL url = new URL(BASE_URL + id);
-    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream())); //declares a new buffered reader to retrieve the html using the URL provided
+    // open bufferered reader to scan html from url provided.
+    BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
     int readLines = 0;
 
     String line;
