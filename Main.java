@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Main {
   private static int NUM_LINES_TO_CHECK = 10;
+  private static String TITLE_TAG = "<title>";
 
   public static void main(String[] args) throws IOException {
     boolean found = false;
@@ -19,12 +20,13 @@ public class Main {
       String line;
       // loops through the first lines of the html recieved, assuming any html is returned.
       while ((line = reader.readLine()) != null && readLines < NUM_LINES_TO_CHECK) { 
-        if (line.contains("| Electronics and Computer Science | University of Southampton")) { //every ecs staff web page contains this within the header title, with their name just before
-          if (!line.contains("People | Electronics and Computer Science | University of Southampton")) { //checks to see if a non-staff email has been entered, as the 'people' page is shown otherwise
-            String name = line.substring(11, line.indexOf("|")); //cuts down the title to only store the name in the new String variable
-            found = true; //ends the while loop as the name has been found
-            System.out.println(name); //prints name to console
-          }
+        // every ecs staff page contains this in the title, after their name. Non-staff pages also contain 'People' in the title.
+        if (line.contains("| Electronics and Computer Science | University of Southampton") && !line.contains("People")) {
+          int nameStartIndex = line.indexOf(TITLE_TAG) + TITLE_TAG.length();
+          int nameEndIndex = line.indexOf('|');
+          String name = line.substring(nameStartIndex, nameEndIndex); //cuts down the title to only store the name in the new String variable
+          found = true; //ends the while loop as the name has been found
+          System.out.println(name); //prints name to console
         }
 
         readLines++;
