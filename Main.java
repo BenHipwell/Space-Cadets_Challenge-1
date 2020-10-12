@@ -6,26 +6,32 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class Main {
+  private static int NUM_LINES_TO_CHECK = 10;
 
   public static void main(String[] args) throws IOException {
     boolean found = false;
 
     while (!found) {
-      URL url = getUrl(); //creates a new URL object using the getUrl method
+      URL url = getUrl();
       BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream())); //declares a new buffered reader to retrieve the html using the URL provided
+      int readLines = 0;
 
-      for (int i = 0; i < 10; i++) { //loops through first 10 lines of the html received into the buffered reader
-        String newLine = reader.readLine(); //reads in the next line of html to be checked
-        if (newLine.contains("| Electronics and Computer Science | University of Southampton")) { //every ecs staff web page contains this within the header title, with their name just before
-          if (newLine.contains("People | Electronics and Computer Science | University of Southampton")) { //checks to see if a non-staff email has been entered, as the 'people' page is shown otherwise
-            System.out.println("Invalid member id, please try again");
-            break;
-          } else {
-            String name = newLine.substring(11, newLine.indexOf("|")); //cuts down the title to only store the name in the new String variable
+      String line;
+      // loops through the first lines of the html recieved, assuming any html is returned.
+      while ((line = reader.readLine()) != null && readLines < NUM_LINES_TO_CHECK) { 
+        if (line.contains("| Electronics and Computer Science | University of Southampton")) { //every ecs staff web page contains this within the header title, with their name just before
+          if (!line.contains("People | Electronics and Computer Science | University of Southampton")) { //checks to see if a non-staff email has been entered, as the 'people' page is shown otherwise
+            String name = line.substring(11, line.indexOf("|")); //cuts down the title to only store the name in the new String variable
             found = true; //ends the while loop as the name has been found
             System.out.println(name); //prints name to console
           }
         }
+
+        readLines++;
+      }
+
+      if (!found) {
+        System.out.println("Invalid member id, please try again");
       }
     }
   }
@@ -37,6 +43,5 @@ public class Main {
     URL url = new URL("https://www.ecs.soton.ac.uk/people/" + id); //concatenating the base url with the id provided by the user to make the new url
 
     return url;
-
   }
 }
