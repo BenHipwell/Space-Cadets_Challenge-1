@@ -8,11 +8,9 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
         boolean found = false;
 
         while (!found) {
-
             URL url = getUrl(); //creates a new URL object using the getUrl method
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream())); //declares a new buffered reader to retrieve the html using the URL provided
 
@@ -32,15 +30,13 @@ public class Main {
         }
     }
 
+    static URL getUrl() throws MalformedURLException { //declares new method to retrieve the URL
+        Scanner input = new Scanner(System.in); //creates a scanner object to be able to read the user's input
+        System.out.println("Please enter the email id of the chosen staff member:");
+        String id = input.nextLine(); //stores user's input
+        URL url = new URL("https://www.ecs.soton.ac.uk/people/" + id); //concatenating the base url with the id provided by the user to make the new url
 
-        static URL getUrl() throws MalformedURLException { //declares new method to retrieve the URL
+        return url;
 
-            Scanner input = new Scanner(System.in); //creates a scanner object to be able to read the user's input
-            System.out.println("Please enter the email id of the chosen staff member:");
-            String id = input.nextLine(); //stores user's input
-            URL url = new URL("https://www.ecs.soton.ac.uk/people/" + id); //concatenating the base url with the id provided by the user to make the new url
-
-            return url;
-
-        }
+    }
 }
