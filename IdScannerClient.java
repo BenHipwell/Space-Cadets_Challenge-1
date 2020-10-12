@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class Main {
+public class IdScannerClient {
   private static int NUM_LINES_TO_CHECK = 10;
   private static String TITLE_TAG = "<title>";
   private static String BASE_URL = "https://www.ecs.soton.ac.uk/people/";
@@ -18,7 +18,7 @@ public class Main {
     while (!found) {
       System.out.println("Please enter the email id of the chosen staff member:");
       String id = input.nextLine();
-      String name = getProfessorNameFromId(id);
+      String name = getStaffNameFromId(id);
 
       if (name == null || name.isEmpty()) {
         System.out.println("Invalid member id, please try again");
@@ -30,7 +30,7 @@ public class Main {
   }
 
   // scans the html returned from BASE_URL + id and returns the name of the staff member, or null if not found.
-  private static String getProfessorNameFromId(String id) throws MalformedURLException, IOException {
+  private static String getStaffNameFromId(String id) throws MalformedURLException, IOException {
     URL url = new URL(BASE_URL + id);
     // open bufferered reader to scan html from url provided.
     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
